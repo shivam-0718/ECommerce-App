@@ -5,4 +5,5 @@ import java.util.List;
 
 public interface IProductService {
     List<Product> getAllProducts();
+    Product fetchProduct(int id);
 }
