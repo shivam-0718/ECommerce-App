@@ -39,7 +39,25 @@ public class ProductService implements IProductService{
         } catch (IOException e) {
             throw new RuntimeException("Image not correctly uploaded. Please try again!");
         }
-        repo.save(product);
-        return "Product uploaded successfully!";
+        Product addedProduct = repo.save(product);
+        return "Product added successfully!";
+    }
+
+    @Override
+    public String updateProduct(Product product, MultipartFile image) {
+        int id = product.getId();
+        Optional<Product> optional = repo.findById(id);
+        if(optional.isPresent()) {
+            product.setImageName(image.getOriginalFilename());
+            product.setImageType(image.getContentType());
+            try {
+                product.setImageData(image.getBytes()); //While giving the image bytes, it might throw an Exception
+            } catch (IOException e) {
+                throw new RuntimeException("Image not correctly uploaded. Please try again!");
+            }
+            repo.save(product);
+            return "Product updated successfully!";
+        }
+        throw new ProductNotFoundException("Product with given id is not available. Please try again with the correct id.");
     }
 }
