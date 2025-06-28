@@ -40,7 +40,7 @@ public class ProductService implements IProductService{
             throw new RuntimeException("Image not correctly uploaded. Please try again!");
         }
         Product addedProduct = repo.save(product);
-        return "Product added successfully!";
+        return "Product has been added successfully with id " + product.getId();
     }
 
     @Override
@@ -56,8 +56,23 @@ public class ProductService implements IProductService{
                 throw new RuntimeException("Image not correctly uploaded. Please try again!");
             }
             repo.save(product);
-            return "Product updated successfully!";
+            return "Product with given id " + id + " has been updated successfully!";
         }
         throw new ProductNotFoundException("Product with given id is not available. Please try again with the correct id.");
+    }
+
+    @Override
+    public String deleteProduct(int id) {
+        Optional<Product> optional = repo.findById(id);
+        if(optional.isPresent()){
+            repo.deleteById(id);
+            return "Product with id " + id + " has been deleted successfully!";
+        }
+        throw new ProductNotFoundException("Product with given id is not available. Please try again with the correct id.");
+    }
+
+    @Override
+    public List<Product> fetchProducts(String keyword) {
+        return repo.searchProducts(keyword);
     }
 }
