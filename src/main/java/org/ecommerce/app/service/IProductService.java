@@ -10,4 +10,5 @@ public interface IProductService {
     String addProduct(Product product, MultipartFile image);
     String updateProduct(Product product, MultipartFile image);
     String deleteProduct(int id);
+    String fetchProducts(String keyword);
 }
