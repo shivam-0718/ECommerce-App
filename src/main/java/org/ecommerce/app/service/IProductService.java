@@ -8,4 +8,6 @@ public interface IProductService {
     List<Product> getAllProducts();
     Product fetchProduct(int id);
     String addProduct(Product product, MultipartFile image);
+    String updateProduct(Product product, MultipartFile image);
+    String deleteProduct(int id);
 }
