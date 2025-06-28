@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.PathVariable;
 import java.util.List;
 
 @RestController
@@ -23,5 +24,11 @@ public class ProductController {
     public ResponseEntity<List<Product>> getProduct() {
         List<Product> products = service.getAllProducts();
         return new ResponseEntity<List<Product>>(products, HttpStatus.OK);
+    }
+
+    @GetMapping("/product/{id}")
+    public ResponseEntity<Product> getProduct(@PathVariable("id") int id) {
+        Product product = service.fetchProduct(id);
+        return new ResponseEntity<Product>(product, HttpStatus.OK);
     }
 }
