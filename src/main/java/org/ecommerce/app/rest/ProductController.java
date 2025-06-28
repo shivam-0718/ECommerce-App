@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
@@ -53,5 +55,16 @@ public class ProductController {
     public ResponseEntity<String> updateProduct(@RequestPart Product product, @RequestPart MultipartFile image) {
         String response = service.updateProduct(product, image);
         return new ResponseEntity<String>(response, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/delete-product/{id}")
+    public ResponseEntity<String> deleteProduct(@PathVariable("id") int id) {
+        String response = service.deleteProduct(id);
+        return new ResponseEntity<String>(response, HttpStatus.OK);
+    }
+
+    @GetMapping("/product/search")
+    public ResponseEntity<List<Product>> searchProducts(@RequestParam String keyword) {
+        List<Product> products =
     }
 }
