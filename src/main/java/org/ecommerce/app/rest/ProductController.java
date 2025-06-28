@@ -40,4 +40,11 @@ public class ProductController {
         String response = service.addProduct(product, image);
         return new ResponseEntity<String>(response, HttpStatus.CREATED);
     }
+
+    @GetMapping("/product/{id}/image")
+    public ResponseEntity<byte[]> getProductImage(@PathVariable("id") int id) {
+        Product product = service.fetchProduct(id);
+        byte[] imageData = product.getImageData();
+        return new ResponseEntity<byte[]>(imageData, HttpStatus.OK);
+    }
 }
