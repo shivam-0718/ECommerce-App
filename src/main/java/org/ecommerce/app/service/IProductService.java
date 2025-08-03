@@ -14,4 +14,5 @@ public interface IProductService {
 
     //Spring AI features.
     String generateDescription(String name, String category);
+    byte[] generateImage(String name, String category, String description);
 }
