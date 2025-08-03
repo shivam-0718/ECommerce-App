@@ -69,4 +69,10 @@ public class ProductController {
         System.out.println("Searching.....");
         return new ResponseEntity<List<Product>>(products, HttpStatus.OK);
     }
+
+    @PostMapping("/product/generate-description")
+    public ResponseEntity<String> generateDescription(@RequestParam String name, @RequestParam String category) {
+        String response = service.generateDescription(name, category);
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
+    }
 }
