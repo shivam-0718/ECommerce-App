@@ -24,6 +24,9 @@ public class ProductService implements IProductService{
     @Autowired
     private ChatClient chatClient;
 
+    @Autowired
+    private AiImageGeneratorService aiImageGenService;
+
     @Override
     public List<Product> getAllProducts() {
         return repo.findAll();
@@ -95,7 +98,6 @@ public class ProductService implements IProductService{
                 Keep it simple, engaging and highlight it's primary features and benefits.
                 Avoid technical jargon and make it customer friendly.
                 Limit the description to 250 characters maximum.
-                
                 """;
 
         PromptTemplate promptTemplate = new PromptTemplate(description);
@@ -105,5 +107,37 @@ public class ProductService implements IProductService{
 
         String response = chatClient.prompt(prompt).call().content();
         return response;
+    }
+
+    @Override
+    public byte[] generateImage(String name, String category, String description) {
+        String imagePrompt = """
+                Generate a highly realistic, professional-grade e-commerce product image.
+                
+                    Product details:
+                        - Product name: {name}
+                        - Product category: {category}
+                        - Product description: {description}
+                    
+                    Requirements:
+                         - Use a clean, minimalistic, white or very light grey background.
+                         - Ensure the product is well-lit with soft, natural-looking lighting.
+                         - Add realistic shadows and soft reflections to ground the product naturally.
+                         - No humans, brand logos, watermarks, or text overlays should be visible.
+                         - Showcase the product from its most flattering angle that highlights key features.
+                         - Ensure the product occupies a prominent position in the frame, centered or slightly off-centered.
+                         - Maintain a high resolution and sharpness, ensuring all textures, colors, and details are clear.
+                         - Follow the typical visual style of top e-commerce websites like Amazon, Flipkart, or Shopify.
+                         - Make the product appear life-like and professionally photographed in a studio setup.
+                         - The final image should look immediately ready for use on an e-commerce website without further editing.
+                """;
+
+        PromptTemplate promptTemplate = new PromptTemplate(imagePrompt);
+        Prompt prompt = promptTemplate.create(
+                Map.of("name", name,
+                        "category", category,
+                        "description", description));
+
+        return aiImageGenService.generateImage(imagePrompt);
     }
 }
