@@ -11,4 +11,7 @@ public interface IProductService {
     String updateProduct(Product product, MultipartFile image);
     String deleteProduct(int id);
     List<Product> fetchProducts(String keyword);
+
+    //Spring AI features.
+    String generateDescription(String name, String category);
 }
